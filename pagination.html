@@ -4,7 +4,7 @@
 	        <ul class="pagination">
 	            <li th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
 	                <a th:if="${page.hasPrevious()}" th:href="${'javascript:paginacao(' + (page.getNumber()-1) + ');'}">Anterior</a>
-	                <a th:if="${!page.hasPrevious()}">Anterior</a>
+	                <a th:if="${!page.hasPrevious()}">Previous</a>
 	            </li>
 
 				<th:block th:if="${page.getTotalPages() gt 10}">
@@ -58,7 +58,7 @@
 
 	            <li th:classappend="${page.hasNext()} ? '' : 'disabled'">
 	                <a th:if="${page.hasNext()}" th:href="${'javascript:paginacao(' + (page.getNumber() + 1) + ');'}">PrÃ³ximo</a>
-	                <a th:if="${!page.hasNext()}">PrÃ³ximo</a>
+	                <a th:if="${!page.hasNext()}">Next</a>
 	            </li>
 	        </ul>
 	    </div>
