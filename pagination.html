@@ -1,0 +1,66 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<div th:fragment="pagination(page)">
+	    <div class="col-md-12 text-center">
+	        <ul class="pagination">
+	            <li th:classappend="${page.hasPrevious()} ? '' : 'disabled'">
+	                <a th:if="${page.hasPrevious()}" th:href="${'javascript:paginacao(' + (page.getNumber()-1) + ');'}">Anterior</a>
+	                <a th:if="${!page.hasPrevious()}">Anterior</a>
+	            </li>
+
+				<th:block th:if="${page.getTotalPages() gt 10}">
+					<th:block th:if="${page.getNumber() le 5}">
+						<li th:classappend="${page.getNumber() == 0} ? 'active' : ''"><a th:href="${'javascript:paginacao(0);'}">1</a></li>
+						<li th:each="pageNumber : ${#numbers.sequence(2, 8)}" th:classappend="${page.getNumber()} == ${pageNumber - 1} ? 'active' : ''">
+							<span th:if="${page.getNumber()} == ${pageNumber}" th:text="${pageNumber}"></span> 
+							<a th:if="${page.getNumber()} != ${pageNumber}" th:href="${'javascript:paginacao(' + (pageNumber - 1) + ')'}">
+								[[${pageNumber}]]
+							</a>
+						</li>
+						<li><span>...</span></li>
+						<li>
+							<a th:href="${'javascript:paginacao(' + (page.getTotalPages() - 1) + ')'}">
+								[[${page.getTotalPages()}]]
+							</a>
+						</li>
+					</th:block>
+					<th:block th:if="${(page.getNumber() gt 5) and (page.getNumber() lt (page.getTotalPages() - 5))}">
+						<li>
+							<a th:href="${'javascript:paginacao(0)'}">1</a>
+						</li>
+						<li><span>...</span></li>
+						<li th:each="pageNumber : ${#numbers.sequence(page.getNumber() - 2, page.getNumber() + 3)}"
+							th:class="${page.getNumber()} == ${pageNumber} ? 'active' : ''">
+							<span th:if="${page.getNumber()} == ${pageNumber}" th:text="${pageNumber}"></span>
+							<a th:if="${page.getNumber()} != ${pageNumber}" th:href="${'javascript:paginacao('+ (pageNumber - 1) +')'}">
+								<span th:text="${pageNumber}"></span>
+							</a>
+						</li>
+						<li><span>...</span></li>
+						<li>
+							<a th:href="${'javascript:paginacao(' + (page.getTotalPages() - 1) + ')'}">
+								[[${page.getTotalPages()}]]
+							</a>
+						</li>
+					</th:block>
+					<th:block th:if="${page.getNumber() ge (page.getTotalPages() - 5)}">
+						<li>
+							<a th:href="${'javascript:paginacao(0)'}">1</a>
+						</li>
+						<li><span>...</span></li>
+						<li th:each="pageNumber : ${#numbers.sequence(page.getTotalPages() - 7, page.getTotalPages())}"
+							th:classappend="${page.getNumber()} == ${pageNumber - 1} ? 'active' : ''">
+							<a th:href="${'javascript:paginacao(' + (pageNumber - 1) + ')'}">
+								[[${pageNumber}]]
+							</a>
+						</li>
+					</th:block>
+				</th:block>
+
+	            <li th:classappend="${page.hasNext()} ? '' : 'disabled'">
+	                <a th:if="${page.hasNext()}" th:href="${'javascript:paginacao(' + (page.getNumber() + 1) + ');'}">PrÃ³ximo</a>
+	                <a th:if="${!page.hasNext()}">PrÃ³ximo</a>
+	            </li>
+	        </ul>
+	    </div>
+	</div>
+</html>
