@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorate="layout/LayoutPadrao">
+
+	<head>
+		<title>Manage groups</title>
+	</head>
+	<body>
+		<section layout:fragment="conteudo">
+			<div class="aw-layout-page">
+				<div class="page-header">
+					<div class="container-fluid">
+						<h1>Manage groups</h1>
+					</div>
+				</div>
+				
+				<div class="internal-section">
+					<form method="GET" th:object="${searchData}" th:action="@{/groups/find}" class="form-vertical js-form-loading">
+						<input type="hidden" th:field="*{pageNumber}" id="page-number"/>
+						<input type="hidden" th:field="*{columnOrdenation}" id="order-column"/>
+						<input type="hidden" th:field="*{columnDirection}" id="order-direction"/>
+			
+						<div class="panel panel-warning">
+							<div class="panel-heading" role="button" id="painelPesquisa" data-toggle="collapse" href="#collapsePainelPesquisa">Search groups</div>
+							<div class="panel-body panel-collapsed collapse in" id="collapsePainelPesquisa" aria-labelledby="painelPesquisa">
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="quantidadePessoas">Quantidade de pessoas:</label>
+											<input id="quantidadePessoas" type="text" class="form-control text-uppercase numeric"
+												th:field="*{quantidadePessoas}" maxlength="3"></input>
+										</div>
+									</div>
+			
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="situacao">Situação:</label> 
+											<select class="form-control text-uppercase" th:field="*{status}">
+												<option value="">Escolha uma opção abaixo</option>
+												<option th:each="status : ${statusgroups}" th:value="${status.nome}" th:text="${status.nome}"></option>
+											</select>
+										</div>
+									</div>
+									
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="criadoEm">Criado em:</label>
+											<input id="criadoEm" type="text" class="form-control text-uppercase date-picker"
+												th:field="*{dataCriacao}"></input>
+										</div>
+									</div>
+								</div>
+								
+								<div class="pull-right">
+									<button type="submit" name="action" value="find" class="btn btn-primary">Search</button>
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<div class="panel panel-warning">
+						<div class="panel-heading" role="button" id="painelResultados" data-toggle="collapse" href="#collapsePainelResultados" th:text="|groups cadastrados (Total: ${quantidadegroups})|"></div>
+						<div class="panel-body panel-collapsed collapse in" id="collapsePainelResultados" aria-labelledby="painelResultados">
+							<div class="table-responsive">
+								<table class="table table-striped table-hover table-condensed js-sticky-table table-ordered">
+									<thead class="aw-table-header-solid">
+										<tr>
+											<th data-order="quantidadePessoas">Qtde pessoas</th>
+											<th data-order="objetivo.valor">Valor</th>
+											<th data-order="tipogroup.nome">Tipo group</th>
+											<th data-order="criador.nome">Criado por</th>
+											<th data-order="dataCriacao">Criado em</th>
+											<th data-order="status">Situação</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:if="${#lists.isEmpty(pagination.content)}">
+											<td colspan="5">No data found</td>
+										</tr>
+										<tr th:each="group : ${pagination.content}">
+											<td>
+												<span th:text="${group.quantidadePessoas}"></span>
+											</td>
+											<td>
+												<span th:text="${#numbers.formatDecimal(group.value, 0, 'POINT', 2, 'COMMA')}"></span>
+											</td>
+											<td class="text-uppercase">
+												<span th:text="${group.type.name}"></span>
+											</td>
+											<td class="text-uppercase">
+												<span th:text="${group.owner.name}"></span>
+											</td>
+											<td>
+												<span th:text="${#dates.format(group.createdAt,'dd/MM/yyyy' )}"></span>
+											</td>
+											<td class="text-uppercase">
+												<span th:text="${group.status}"></span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							
+							<div th:insert="~{fragments/pagination :: pagination(${pagination})}"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>
