@@ -7,7 +7,7 @@
 	                <a th:if="${!page.hasPrevious()}">Previous</a>
 	            </li>
 
-				<th:block th:if="${page.getTotalPages() lt 10}">
+				<th:block th:if="${page.getTotalPages() le 10}">
 					<li th:classappend="${page.getNumber() == 0} ? 'active' : ''"><a th:href="${'javascript:paginacao(0);'}">1</a></li>
 					<li th:if="${page.getTotalPages() gt 1}" th:each="pageNumber : ${#numbers.sequence(2, page.getTotalPages())}" th:classappend="${page.getNumber()} == ${pageNumber - 1} ? 'active' : ''">
 						<span th:if="${page.getNumber()} == ${pageNumber}" th:text="${pageNumber}"></span> 
