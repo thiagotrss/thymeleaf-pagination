@@ -20,8 +20,8 @@
 					<th:block th:if="${page.getNumber() le 5}">
 						<li th:classappend="${page.getNumber() == 0} ? 'active' : ''"><a th:href="${'javascript:paginacao(0);'}">1</a></li>
 						<li th:each="pageNumber : ${#numbers.sequence(2, 8)}" th:classappend="${page.getNumber()} == ${pageNumber - 1} ? 'active' : ''">
-							<span th:if="${page.getNumber()} == ${pageNumber}" th:text="${pageNumber}"></span> 
-							<a th:if="${page.getNumber()} != ${pageNumber}" th:href="${'javascript:paginacao(' + (pageNumber - 1) + ')'}">
+							<span th:if="${page.getNumber()} == ${pageNumber - 1}" th:text="${pageNumber}"></span> 
+							<a th:if="${page.getNumber()} != ${pageNumber - 1}" th:href="${'javascript:paginacao(' + (pageNumber - 1) + ')'}">
 								[[${pageNumber}]]
 							</a>
 						</li>
@@ -38,9 +38,9 @@
 						</li>
 						<li><span>...</span></li>
 						<li th:each="pageNumber : ${#numbers.sequence(page.getNumber() - 2, page.getNumber() + 3)}"
-							th:class="${page.getNumber()} == ${pageNumber} ? 'active' : ''">
-							<span th:if="${page.getNumber()} == ${pageNumber}" th:text="${pageNumber}"></span>
-							<a th:if="${page.getNumber()} != ${pageNumber}" th:href="${'javascript:paginacao('+ (pageNumber - 1) +')'}">
+							th:class="${page.getNumber()} == ${pageNumber - 1} ? 'active' : ''">
+							<span th:if="${page.getNumber()} == ${pageNumber - 1}" th:text="${pageNumber}"></span>
+							<a th:if="${page.getNumber()} != ${pageNumber - 1}" th:href="${'javascript:paginacao('+ (pageNumber - 1) +')'}">
 								<span th:text="${pageNumber}"></span>
 							</a>
 						</li>
